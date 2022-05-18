@@ -1,0 +1,79 @@
+<configuration packagingData="false" debug="true">
+
+	<!-- Variable de fecha -->
+	<timestamp key="logDate" datePattern="dd-MM-yyyy" />
+
+	<!-- AppenderConsole -->
+	<appender name="DCCLog"
+		class="ch.qos.logback.core.ConsoleAppender">
+
+		<encoder
+			class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+
+			<layout class="com.nttdata.Logback.NTTDataLayout">
+				<prefix>NTTDataLayout</prefix>
+				<printThreadName>true</printThreadName>
+			</layout>
+
+		</encoder>
+	</appender>
+
+	<!-- FileAppender 1 -->
+	<appender name="DCCLogFA"
+		class="ch.qos.logback.core.FileAppender">
+		<file>D://dev//logs//logDCC-${logDate}.log</file>
+		<append>false</append>
+		<immediateFlush>true</immediateFlush>
+		<encoder>
+			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - [%method] - %msg%n</pattern>
+		</encoder>
+	</appender>
+
+	<!-- FileAppender 2 -->
+	<appender name="DCCLogFA2"
+		class="ch.qos.logback.core.FileAppender">
+		<file>D://dev//logs//logDCC-${logDate}.log</file>
+		<append>true</append>
+		<immediateFlush>true</immediateFlush>
+		<encoder>
+			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - [%method] - %msg%n</pattern>
+		</encoder>
+	</appender>
+
+	<!-- RollingFileAppender -->
+	<appender name="DCCLogRFA"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>D://dev//logs//logDCC-${logDate}.log</file>
+		<append>true</append>
+		<immediateFlush>false</immediateFlush>
+
+		<rollingPolicy
+			class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+			<fileNamePattern>D://dev//logs//logDCC.%i.log.zip</fileNamePattern>
+			<minIndex>1</minIndex>
+			<maxIndex>3</maxIndex>
+		</rollingPolicy>
+
+		<triggeringPolicy
+			class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+			<maxFileSize>50KB</maxFileSize>
+		</triggeringPolicy>
+		<encoder>
+			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - [%method] - %msg%n</pattern>
+		</encoder>
+	</appender>
+
+	<!-- Logger -->
+	
+	<root level="info">
+		<appender-ref ref="DCCLogFA" />
+	</root>
+	
+	<root level="info">
+		<appender-ref ref="DCCLogFA1" />
+	</root>
+
+	<root level="info">
+		<appender-ref ref="DCCLogRFA" />
+	</root>
+</configuration>
